@@ -121,6 +121,39 @@ export default defineConfig(({ mode }) => {
           target: 'http://localhost:4317',
           changeOrigin: true,
         },
+        '/api/bitte/chat': {
+          target: 'https://ai-runtime-446257178793.europe-west1.run.app',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api\/bitte/, ''),
+          configure: (proxy, options) => {
+            proxy.on('proxyReq', (proxyReq, req, res) => {
+              // Add authentication header
+              const bitteApiKey = process.env.BITTE_API_KEY || process.env.VITE_BITTE_API_KEY;
+              if (bitteApiKey) {
+                proxyReq.setHeader('Authorization', `Bearer ${bitteApiKey}`);
+              }
+              
+              // Ensure content-type is set for POST requests
+              if (req.method === 'POST') {
+                proxyReq.setHeader('Content-Type', 'application/json');
+              }
+            });
+          },
+        },
+        '/api/bitte/history': {
+          target: 'https://ai-runtime-446257178793.europe-west1.run.app',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api\/bitte/, ''),
+          configure: (proxy, options) => {
+            proxy.on('proxyReq', (proxyReq, req, res) => {
+              // Add authentication header
+              const bitteApiKey = process.env.BITTE_API_KEY || process.env.VITE_BITTE_API_KEY;
+              if (bitteApiKey) {
+                proxyReq.setHeader('Authorization', `Bearer ${bitteApiKey}`);
+              }
+            });
+          },
+        },
       },
     },
 

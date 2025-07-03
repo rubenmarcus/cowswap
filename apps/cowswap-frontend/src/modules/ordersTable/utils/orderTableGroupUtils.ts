@@ -1,6 +1,11 @@
 import { ParsedOrder } from 'utils/orderUtils/parseOrder'
 
-import { OrderTableItem } from '../types'
+export interface OrderTableGroup {
+  parent: ParsedOrder
+  children: ParsedOrder[]
+}
+
+export type OrderTableItem = OrderTableGroup | ParsedOrder
 
 export const isParsedOrder = (item: OrderTableItem): item is ParsedOrder => !('children' in item)
 

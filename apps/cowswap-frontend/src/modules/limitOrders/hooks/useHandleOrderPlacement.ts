@@ -13,7 +13,7 @@ import { tradeFlow } from 'modules/limitOrders/services/tradeFlow'
 import { PriceImpactDeclineError, TradeFlowContext } from 'modules/limitOrders/services/types'
 import { LimitOrdersSettingsState } from 'modules/limitOrders/state/limitOrdersSettingsAtom'
 import { partiallyFillableOverrideAtom } from 'modules/limitOrders/state/partiallyFillableOverride'
-import { OrderTabId, useNavigateToOrdersTableTab } from 'modules/ordersTable'
+import { useNavigateToAllOrdersTable } from 'modules/ordersTable'
 import { useCloseReceiptModal } from 'modules/ordersTable/containers/OrdersReceiptModal/hooks'
 import { useTradeFlowAnalytics } from 'modules/trade'
 import { TradeConfirmActions } from 'modules/trade/hooks/useTradeConfirmActions'
@@ -26,7 +26,9 @@ import { useIsSafeApprovalBundle } from 'common/hooks/useIsSafeApprovalBundle'
 import { TradeAmounts } from 'common/types'
 import { getSwapErrorMessage } from 'common/utils/getSwapErrorMessage'
 
-function useAlternativeModalAnalytics(): (wasPlaced: boolean) => void {
+// TODO: Add proper return type annotation
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+function useAlternativeModalAnalytics() {
   const analytics = useCowAnalytics()
 
   return useCallback(
@@ -54,7 +56,7 @@ export function useHandleOrderPlacement(
   const hideAlternativeOrderModal = useHideAlternativeOrderModal()
   const { isEdit: isAlternativeOrderEdit } = useAlternativeOrder() || {}
   const closeReceiptModal = useCloseReceiptModal()
-  const navigateToOrdersTableTab = useNavigateToOrdersTableTab()
+  const navigateToAllOrdersTable = useNavigateToAllOrdersTable()
   const [partiallyFillableOverride, setPartiallyFillableOverride] = useAtom(partiallyFillableOverrideAtom)
   // tx bundling stuff
   const safeBundleFlowContext = useSafeBundleFlowContext(tradeContext)
@@ -137,7 +139,7 @@ export function useHandleOrderPlacement(
         // Reset alternative mode if any
         hideAlternativeOrderModal()
         // Navigate to all orders
-        navigateToOrdersTableTab(OrderTabId.all)
+        navigateToAllOrdersTable()
         // Close receipt modal
         closeReceiptModal()
 
@@ -161,7 +163,7 @@ export function useHandleOrderPlacement(
     updateLimitOrdersState,
     setPartiallyFillableOverride,
     isAlternativeOrderEdit,
-    navigateToOrdersTableTab,
+    navigateToAllOrdersTable,
     closeReceiptModal,
     hideAlternativeOrderModal,
     alternativeModalAnalytics,

@@ -1,8 +1,8 @@
-import { Token } from '@uniswap/sdk-core'
-
 import { ParsedOrder } from 'utils/orderUtils/parseOrder'
 
-export function getFeeToken(order: ParsedOrder): Token | undefined {
+// TODO: Add proper return type annotation
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+export function getFeeToken(order: ParsedOrder) {
   const { inputToken, outputToken } = order
   const { executedFeeToken } = order.executionData
 

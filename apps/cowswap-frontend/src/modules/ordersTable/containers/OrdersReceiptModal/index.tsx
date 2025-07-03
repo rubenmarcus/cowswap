@@ -1,12 +1,10 @@
-import { ReactNode } from 'react'
-
 import { useENS } from '@cowprotocol/ens'
 import { useWalletInfo } from '@cowprotocol/wallet'
 import { CurrencyAmount } from '@uniswap/sdk-core'
 
 import JSBI from 'jsbi'
 
-import { PendingOrdersPrices } from 'modules/orders'
+import { PendingOrdersPrices } from 'modules/orders/state/pendingOrdersPricesAtom'
 import { useTwapOrderByChildId, useTwapOrderById } from 'modules/twap'
 
 import { calculatePrice } from 'utils/orderUtils/calculatePrice'
@@ -19,7 +17,9 @@ type OrdersReceiptModalProps = {
   pendingOrdersPrices: PendingOrdersPrices
 }
 
-export function OrdersReceiptModal(props: OrdersReceiptModalProps): ReactNode {
+// TODO: Add proper return type annotation
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+export function OrdersReceiptModal(props: OrdersReceiptModalProps) {
   // TODO: can we get selected order from URL by id?
   const order = useSelectedOrder()
   const { chainId } = useWalletInfo()

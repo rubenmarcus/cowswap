@@ -1,26 +1,23 @@
-import { useSetAtom } from 'jotai/index'
-import { useEffect } from 'react'
-
-import { SupportedChainId } from '@cowprotocol/cow-sdk'
-
 import { BalancesAndAllowances } from 'modules/tokens'
 
 import { ParsedOrder } from 'utils/orderUtils/parseOrder'
 
 import { ordersMock } from './orders.mock'
+import { OrderActions } from './types'
 
-import { OrderTab, OrderTabId } from '../../const/tabs'
-import { ordersTableStateAtom } from '../../state/ordersTableStateAtom'
-import { OrderActions, TabOrderTypes } from '../../types'
+import { OrderTab } from '../../const/tabs'
+import { TabOrderTypes } from '../../types'
+
+import { OrdersTableContainer } from './index'
 
 const tabs: OrderTab[] = [
   {
-    id: OrderTabId.open,
+    id: 'open',
     title: 'Open orders',
     count: 5,
   },
   {
-    id: OrderTabId.history,
+    id: 'history',
     title: 'Orders history',
     count: 0,
     isActive: false,
@@ -59,38 +56,24 @@ const orderActions: OrderActions = {
   },
 }
 
-function Wrapper(): null {
-  const setOrdersTableState = useSetAtom(ordersTableStateAtom)
-
-  useEffect(() => {
-    setOrdersTableState({
-      pendingActivities: [],
-      displayOrdersOnlyForSafeApp: false,
-      pendingOrdersPrices: {},
-      chainId: SupportedChainId.MAINNET,
-      currentPageNumber: 1,
-      orders: ordersMock,
-      filteredOrders: ordersMock,
-      tabs: tabs,
-      isSafeViaWc: false,
-      allowsOffchainSigning: true,
-      isWalletConnected: true,
-      selectedOrders: [],
-      balancesAndAllowances: balancesAndAllowances,
-      getSpotPrice: () => null,
-      orderActions: orderActions,
-      orderType: TabOrderTypes.LIMIT,
-      injectedWidgetParams: {},
-      isTwapTable: false,
-      currentTabId: OrderTabId.open,
-    })
-  }, [setOrdersTableState])
-
-  return null
-}
-
-const Fixtures = {
-  default: () => <Wrapper />,
-}
-
-export default Fixtures
+export default (
+  <OrdersTableContainer
+    pendingActivities={[]}
+    displayOrdersOnlyForSafeApp={false}
+    pendingOrdersPrices={{}}
+    chainId={1}
+    currentPageNumber={1}
+    orders={ordersMock}
+    tabs={tabs}
+    isSafeViaWc={false}
+    allowsOffchainSigning={true}
+    isWalletConnected={true}
+    selectedOrders={[]}
+    balancesAndAllowances={balancesAndAllowances}
+    getSpotPrice={() => null}
+    orderActions={orderActions}
+    orderType={TabOrderTypes.LIMIT}
+    injectedWidgetParams={{}}
+    isTwapTable={false}
+  />
+)

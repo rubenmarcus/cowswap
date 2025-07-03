@@ -6,6 +6,8 @@ import { isInjectedWidget } from '@cowprotocol/common-utils'
 import { Footer, Media } from '@cowprotocol/ui'
 import { useWalletDetails, useWalletInfo } from '@cowprotocol/wallet'
 
+import { BitteWidgetChat } from '@bitte-ai/chat'
+import '@bitte-ai/chat/styles.css'
 import Snowfall from 'react-snowfall'
 
 import { URLWarning } from 'legacy/components/Header/URLWarning'
@@ -37,6 +39,10 @@ export function AppContainer({ children }: AppContainerProps): ReactNode {
   const { walletName } = useWalletDetails()
   const cowAnalytics = useCowAnalytics()
   const webVitals = useMemo(() => new WebVitalsAnalytics(cowAnalytics), [cowAnalytics])
+
+  /*   // Wagmi hooks for Bitte AI widget
+    const { data: hash, sendTransaction } = useSendTransaction()
+    const { switchNetwork } = useSwitchNetwork() */
 
   useAnalyticsReporter({
     account,
@@ -78,6 +84,42 @@ export function AppContainer({ children }: AppContainerProps): ReactNode {
         {children}
         <styledEl.Marginer />
       </styledEl.BodyWrapper>
+
+      {/* Bitte AI Chat Widget */}
+      <BitteWidgetChat
+        agentId="near-cow-agent-git-dev-bitteprotocol.vercel.app"
+        options={{
+          agentName: 'CoW Swap Assistant',
+          agentImage: '/favicon-dark-mode.png',
+        }}
+        apiUrl="/api/bitte/chat"
+        historyApiUrl="/api/bitte/history"
+        wallet={{
+          evm: {
+            address: account,
+            sendTransaction: async () => {
+              console.warn('sendTransaction not implemented yet - wagmi hooks need QueryClient setup')
+              return null
+            },
+            switchChain: async () => {
+              console.warn('switchChain not implemented yet - wagmi hooks need QueryClient setup')
+            },
+            //hash: hash ? String(hash) : undefined,
+            //sendTransaction: sendTransaction as any,
+            //switchChain: switchNetwork as any
+          },
+        }}
+        widget={{
+          widgetWelcomePrompts: {
+            questions: [
+              'What is CoW Swap?',
+              'How does CoW Protocol work?',
+              'What are the benefits of using CoW Swap?'
+            ],
+            actions: ['Swap tokens', 'Check price', 'View orders'],
+          },
+        }}
+      />
 
       {!isInjectedWidgetMode && isChristmasTheme && (
         <Snowfall
