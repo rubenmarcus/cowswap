@@ -58,8 +58,10 @@ export default defineConfig(({ mode }) => {
       filename: 'service-worker.ts',
       minify: true,
       injectManifest: {
-        maximumFileSizeToCacheInBytes: 8000000, // 8mb
+        maximumFileSizeToCacheInBytes: 15000000, // 15mb - increased to handle large bundles
         globPatterns: ['**/*.{js,css,html,png,jpg,svg,json,woff,woff2,md}'],
+        // Exclude very large JavaScript files from precaching
+        globIgnores: ['**/static/*-{8,9,10,11,12,13,14,15}MB*.js'],
       },
     }),
     robotsPlugin({
