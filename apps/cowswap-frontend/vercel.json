@@ -1,10 +1,10 @@
 {
   "functions": {
     "api/bitte/chat.js": {
-      "runtime": "nodejs18.x"
+      "runtime": "nodejs20.x"
     },
     "api/bitte/history.js": {
-      "runtime": "nodejs18.x"
+      "runtime": "nodejs20.x"
     }
   },
   "redirects": [
