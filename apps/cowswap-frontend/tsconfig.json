@@ -11,9 +11,7 @@
     "paths": {
       "@cowprotocol/abis": ["../../../libs/abis/src/index.ts"],
       "@cowprotocol/ui": ["../../../libs/ui/src/index.ts"],
-      "@cowprotocol/ui-utils": ["../../../libs/ui-utils/src/index.ts"],
       "@cowprotocol/widget-lib": ["../../../libs/widget-lib/src/index.ts"],
-      "@cowprotocol/widget-react": ["../../../libs/widget-react/src/index.ts"],
       "@cowprotocol/snackbars": ["../../../libs/snackbars/src/index.ts"],
       "@cowprotocol/tokens": ["../../../libs/tokens/src/index.ts"],
       "@cowprotocol/wallet": ["../../../libs/wallet/src/index.ts"],
