@@ -1,16 +1,4 @@
-interface VercelRequest {
-  method?: string;
-  body: unknown;
-}
-
-interface VercelResponse {
-  setHeader: (name: string, value: string) => void;
-  status: (code: number) => VercelResponse;
-  json: (data: unknown) => void;
-  end: () => void;
-}
-
-export default async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
+export default async function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');

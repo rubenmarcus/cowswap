@@ -1,16 +1,4 @@
-interface VercelRequest {
-  method?: string;
-  body: unknown;
-}
-
-interface VercelResponse {
-  setHeader: (name: string, value: string) => void;
-  status: (code: number) => VercelResponse;
-  json: (data: unknown) => void;
-  end: () => void;
-}
-
-export default async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
+export default async function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -34,15 +22,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
   }
 
   try {
-    const response = await fetch(BITTE_API_URL, {
+    const requestOptions = {
       method: req.method,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${BITTE_API_KEY}`,
       },
-      ...(req.method === 'POST' && { body: JSON.stringify(req.body) }),
-    });
+    };
 
+    // Add body for POST requests
+    if (req.method === 'POST') {
+      requestOptions.body = JSON.stringify(req.body);
+    }
+
+    const response = await fetch(BITTE_API_URL, requestOptions);
     const data = await response.json();
 
     if (!response.ok) {
