@@ -6,16 +6,6 @@
       "permanent": false
     }
   ],
-  "rewrites": [
-    {
-      "source": "/api/bitte/chat",
-      "destination": "https://ai-runtime-446257178793.europe-west1.run.app/chat"
-    },
-    {
-      "source": "/api/bitte/history", 
-      "destination": "https://ai-runtime-446257178793.europe-west1.run.app/history"
-    }
-  ],
   "buildCommand": "cd ../../ && npx nx build cowswap-frontend --configuration=$NX_CONFIGURATION",
   "outputDirectory": "../../build/cowswap",
   "installCommand": "cd ../../ && yarn"
